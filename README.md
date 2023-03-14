@@ -20,7 +20,7 @@ rails generate extractor:tap example
 ```
 Taps have a perform method that can receive dates and arrays, but in the example file we just need basic 1,2,3 pagination, so we can simply call:
 ```ruby
-  ExampleTap.perform
+ExampleTap.new.perform
 ```
 This will download all posts from jsonplaceholder as requests.
 To clean up and analize the response contents, check out [dbt](https://github.com/felipedmesquita/dbt)
