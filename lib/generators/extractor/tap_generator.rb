@@ -7,6 +7,10 @@ module Extractor
       def copy_tap_file
         template "tap.rb.tt", "app/extractors/#{file_name}_tap.rb"
       end
+
+      def copy_sql_file
+        template "dbt.sql.tt", "app/sql/#{file_name}_tap.sql"
+      end
     end
   end
 end
