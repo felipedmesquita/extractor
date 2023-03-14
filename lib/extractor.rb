@@ -35,8 +35,12 @@ class Extractor
     @initial_value.empty?
   end
 
+  def first_value
+    nil
+  end
+
   def perform
-    @current_value = @current_value || 0
+    @current_value = @current_value || first_value || 1
     retries_count = 0
     while @current_value do
       res = request_for @current_value

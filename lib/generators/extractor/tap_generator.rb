@@ -5,7 +5,7 @@ module Extractor
       source_root File.expand_path('templates', __dir__)
 
       def copy_tap_file
-        template "tap.rb.tt", "extractors/#{file_name}_tap.rb"
+        template "tap.rb.tt", "app/extractors/#{file_name}_tap.rb"
       end
     end
   end

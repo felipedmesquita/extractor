@@ -1,3 +1,4 @@
+require "rails/generators/active_record"
 
 module Extractor
   module Generators
@@ -5,10 +6,12 @@ module Extractor
       include ActiveRecord::Generators::Migration
       source_root File.join(__dir__, "templates")
 
-      invoke "active_record:model", ["Request"], migration: false
+      def copy_model_file
+        template "request.rb.tt", "app/models/request.rb"
+      end
 
       def copy_migration
-        migration_template "uploads.rb", "db/migrate/create_blazer_uploads.rb", migration_version: migration_version
+        migration_template "requests_migration.rb", "db/migrate/create_requests.rb", migration_version: migration_version
       end
 
       def migration_version
