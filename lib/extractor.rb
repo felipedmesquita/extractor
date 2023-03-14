@@ -3,37 +3,37 @@ module Extractor
   class Tap
     MAX_RETRIES = 4
 
-    def request_for_batch_size
-      if @request_for_batch_size
-        @request_for_batch_size
-      else
-        @request_for_batch_size = [
+    def initialize parameter=nil, auth:{}
+      @auth = auth
+      @parameter = parameter
+
+      @request_for_method_name =
         self.class.instance_methods(false)
-        .find {|m| m.to_s.start_with?('request_for_')}
+        .find {|m| m.to_s.start_with?('request_for_')} || :request_for
+
+      @request_for_batch_size = [
+        @request_for_method_name
         .to_s.gsub('request_for_','').to_i,
         1].max
-      end
-    end
 
-    def initialize initial_value=nil
-      @initial_value = initial_value
-
-      if @initial_value.is_a? Array
-        @current_value = @initial_value.first
+      if @parameter.is_a? Array
+        @current_value = @parameter.first @request_for_batch_size
+      else
+        @current_value = first_value || 1
       end
     end
 
     def next_value
-      if @initial_value.is_a? Array
-        @initial_value.delete @current_value
-        @initial_value.first
+      if @current_value.is_a? Array
+        @parameter -= @current_value
+        @parameter.first @request_for_batch_size
       else
         @current_value + 1
       end
     end
 
     def reached_end? res
-      @initial_value.empty?
+      @parameter.empty?
     end
 
     def first_value
@@ -41,10 +41,10 @@ module Extractor
     end
 
     def perform
-      @current_value = @current_value || first_value || 1
       retries_count = 0
-      while @current_value do
-        res = request_for @current_value
+      while @current_value.present? do
+        #binding.irb
+        res = send(@request_for_method_name, @request_for_batch_size == 1 ? (@current_value.first rescue @current_value) : @current_value)
         raise "Function request_for() should return a Typhoeus::Response, but returned #{res.class}" if res.class != Typhoeus::Response
         res.options[:response_body] = JSON.parse(res.body) rescue res.body
         response_valid = validate(res) rescue nil
