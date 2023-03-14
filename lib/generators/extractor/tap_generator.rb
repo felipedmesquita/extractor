@@ -9,7 +9,7 @@ module Extractor
       end
 
       def copy_sql_file
-        template "dbt.sql.tt", "app/sql/#{file_name}_tap.sql"
+        template "dbt.sql.tt", "app/sql/#{file_name}.sql"
       end
     end
   end
