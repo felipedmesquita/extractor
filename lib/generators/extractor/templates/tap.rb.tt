@@ -1,13 +1,10 @@
 class <%= class_name %>Tap < Extractor::Tap
 
+  # Value counts up from 1 by default
+  # Customize defining first_value and next_value methods
   def request_for value
     Typhoeus.get "https://jsonplaceholder.typicode.com/posts/#{value}"
   end
-
-  # Uncomment if your value is not read from an array or needs to increment by more than one
-  # def next_value
-  #    @current_value + 51
-  # end
 
   # Response bodies are automaticaly json parsed if they contain valid json
   # Return anything other than nil or false if reached the end
