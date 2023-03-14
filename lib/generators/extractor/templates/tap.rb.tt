@@ -1,4 +1,4 @@
-class <%= class_name %>Tap < Extractor
+class <%= class_name %>Tap < Extractor::Tap
 
   def request_for value
     Typhoeus.get "https://jsonplaceholder.typicode.com/posts/#{value}"
