@@ -1,0 +1,23 @@
+class <%= class_name %>Tap < Extractor
+
+  def request_for value
+    Typhoeus.get "https://jsonplaceholder.typicode.com/posts/#{value}"
+  end
+
+  # Opitionaly define this method if your value is not read from an array or needs to increment by more than one
+  # def next_value
+  #    @current_value + 51
+  # end
+
+  # Response bodies are automaticaly json parsed if they contain valid json
+  # Return anything other than nil or false if reached the end
+  def reached_end? response
+    response.body.empty?
+  end
+
+  # Return nil, false or explode this method on invalid response
+  def validate response
+    Integer(response.body['id'])
+  end
+
+end

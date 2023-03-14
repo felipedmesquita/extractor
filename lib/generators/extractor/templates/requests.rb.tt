@@ -1,0 +1,14 @@
+class <%= migration_class_name %> < ActiveRecord::Migration<%= migration_version %>
+  def change
+    create_table :requests do |t|
+      t.string :extractor_class
+      t.string :base_url
+      t.jsonb :request_options
+      t.jsonb :request_original_options
+      t.jsonb :response_options
+      t.string :request_cache_key
+
+      t.timestamps
+    end
+  end
+end
