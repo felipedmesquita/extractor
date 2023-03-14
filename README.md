@@ -17,6 +17,7 @@ Create a tap:
 ```bash
 rails generate extractor:tap example
 # => create  app/extractors/example_tap.rb
+# => create  app/sql/example.sql
 ```
 Taps have a perform method that can receive dates and arrays, but in the example file we just need basic 1,2,3 pagination, so we can simply call:
 ```ruby
