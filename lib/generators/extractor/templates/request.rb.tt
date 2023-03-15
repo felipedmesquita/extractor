@@ -1,2 +1,7 @@
 class Request < ApplicationRecord
+  class << self
+    Dir.glob('app/extractors/**/*').map {|t| t.scan /extractors\/(.*_tap)\.rb/}.flatten.each do |name|
+      define_method(name) {where extractor_class: name.classify}
+    end
+  end
 end
