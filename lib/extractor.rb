@@ -49,6 +49,7 @@ module Extractor
         res.options[:response_body] = JSON.parse(res.body) rescue res.body
         response_valid = validate(res) rescue nil
         if response_valid
+          @last_response = res
           Request.insert! build_request_model(res)
           if reached_end?(res)
             @current_value = nil
