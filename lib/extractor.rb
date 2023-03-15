@@ -51,6 +51,7 @@ module Extractor
         if response_valid
           @last_response = res
           Request.insert! build_request_model(res)
+          retries_count = 0
           if reached_end?(res)
             @current_value = nil
           else
