@@ -19,9 +19,12 @@ rails generate extractor:tap example
 # => create  app/extractors/example_tap.rb
 # => create  app/sql/example.sql
 ```
-Taps have a perform method that can receive dates and arrays, but in the example file we just need basic 1,2,3 pagination, so we can simply call:
+Taps inherit the initilizer and perform methods from Extractor::Tap. To run our example tap, we can simply call:
 ```ruby
 ExampleTap.new.perform
 ```
 This will download all posts from jsonplaceholder as requests.
 To clean up and analize the response contents, check out [dbt](https://github.com/felipedmesquita/dbt)
+
+## How it works
+The perform method takes no arguments and just runs until reached_end? returns true for any response received.
