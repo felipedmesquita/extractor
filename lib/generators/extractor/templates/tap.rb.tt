@@ -6,7 +6,7 @@ class <%= class_name %>Tap < Extractor::Tap
     Typhoeus.get "https://jsonplaceholder.typicode.com/posts/#{value}"
   end
 
-  # Response bodies are automaticaly json parsed if they contain valid json
+  # Use response.json for a parsed body (nil if invalid json)
   # Return anything other than nil or false if reached the end
   def reached_end? response
     response.body.empty?

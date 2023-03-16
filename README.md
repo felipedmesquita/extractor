@@ -70,3 +70,15 @@ def request_for value
   Typhoeus.get "imaginaryapi.com/sellers/#{@auth['seller_id']}/products?access_token=#{@auth['access_token']}"
 end
 ```
+
+## Options
+Define these constants to configure retry behavior.
+#### Defaults
+```ruby
+MAX_RETRIES = 4
+ON_MAX_RETRIES = :fail
+```
+`ON_MAX_RETRIES` accepts three possible options:
+- `:fail` Default. Raises 'Maximum number of retries reached'
+- `:save_to_errors` Saves the last invalid request to the requests table with the extractor_class column set to ExampleTap_errors
+- `:skip_silently` Don't use this one.
