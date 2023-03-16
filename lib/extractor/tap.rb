@@ -74,6 +74,7 @@ class Extractor::Tap
             raise "Maximum number of retries reached (#{self.class::MAX_RETRIES})"
           when :save_to_errors
             Request.insert! build_request_model_for_error(res)
+            @current_value = next_value
           when :skip_silently
             @current_value = next_value
           end
