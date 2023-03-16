@@ -87,6 +87,7 @@ class Extractor::Tap
 
   private
   def build_request_model typhoeus_response
+    typhoeus_response.options[:response_body] = JSON.parse(typhoeus_response.body) rescue typhoeus_response.body
     {
       extractor_class: self.class,
       base_url: typhoeus_response.request.base_url,
@@ -98,6 +99,7 @@ class Extractor::Tap
   end
 
   def build_request_model_for_error typhoeus_response
+    typhoeus_response.options[:response_body] = JSON.parse(typhoeus_response.body) rescue typhoeus_response.body
     {
       extractor_class: "#{self.class}_errors",
       base_url: typhoeus_response.request.base_url,

@@ -82,3 +82,8 @@ ON_MAX_RETRIES = :fail
 - `:fail` Default. Raises 'Maximum number of retries reached'
 - `:save_to_errors` Saves the last invalid request to the requests table with the extractor_class column set to ExampleTap_errors
 - `:skip_silently` Don't use this one.
+
+## Instance variables
+- `@parameter` The postional first argument to `.new`. In `ExampleTap.new(Date.yesterday)` @parameter would be `Date.yesterday`. This is not used by the Extractor::Tap class.
+- `@auth` The named argument `auth:` to `.new`. In `ExampleTap.new(auth: {api_key: '328490284209'})` @auth would be `'328490284209'`. This is not used by the Extractor::Tap class.
+- `@last_response` Is set automaticaly to the last valid response received from `request_for`.
