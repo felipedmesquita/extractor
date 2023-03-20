@@ -87,26 +87,28 @@ class Extractor::Tap
 
   private
   def build_request_model typhoeus_response
-    typhoeus_response.options[:response_body] = JSON.parse(typhoeus_response.body) rescue typhoeus_response.body
+    res = typhoeus_response.dup
+    res.options[:response_body] = JSON.parse(typhoeus_response.body) rescue typhoeus_response.body
     {
       extractor_class: self.class,
-      base_url: typhoeus_response.request.base_url,
-      request_options: typhoeus_response.request.options,
-      request_original_options: typhoeus_response.request.original_options,
-      response_options: typhoeus_response.options,
-      request_cache_key: typhoeus_response.request.cache_key
+      base_url: res.request.base_url,
+      request_options: res.request.options,
+      request_original_options: res.request.original_options,
+      response_options: res.options.tap{|o| },
+      request_cache_key: res.request.cache_key
     }
   end
 
   def build_request_model_for_error typhoeus_response
-    typhoeus_response.options[:response_body] = JSON.parse(typhoeus_response.body) rescue typhoeus_response.body
+    res = typhoeus_response.dup
+    res.options[:response_body] = JSON.parse(typhoeus_response.body) rescue typhoeus_response.body
     {
       extractor_class: "#{self.class}_errors",
-      base_url: typhoeus_response.request.base_url,
-      request_options: typhoeus_response.request.options,
-      request_original_options: typhoeus_response.request.original_options,
-      response_options: typhoeus_response.options,
-      request_cache_key: typhoeus_response.request.cache_key
+      base_url: res.request.base_url,
+      request_options: res.request.options,
+      request_original_options: res.request.original_options,
+      response_options: res.options,
+      request_cache_key: res.request.cache_key
     }
   end
 

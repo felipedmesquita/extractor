@@ -9,12 +9,12 @@ class <%= class_name %>Tap < Extractor::Tap
   # Use response.json for a parsed body (nil if invalid json)
   # Return anything other than nil or false if reached the end
   def reached_end? response
-    response.body.empty?
+    response.body == "{}"
   end
 
   # Return nil, false or explode this method on invalid response
   def validate response
-    Integer(response.body['id'])
+    Integer(response.json['id'])
   end
 
 end
