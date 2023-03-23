@@ -73,10 +73,11 @@ module Extractor
               raise "Maximum number of retries reached (#{self.class::MAX_RETRIES})"
             when :save_to_errors
               Request.insert! build_request_model_for_error(res)
-              @current_value = next_value
             when :skip_silently
-              @current_value = next_value
+              puts "skiped on value #{@current_value}"
             end
+            @current_value = next_value
+            retries_count = 0
           end
         end
 
