@@ -2,6 +2,7 @@ class <%= migration_class_name %> < ActiveRecord::Migration<%= migration_version
   def change
     create_table :requests do |t|
       t.string :extractor_class
+      t.string :account_id
       t.string :base_url
       t.jsonb :request_options
       t.jsonb :request_original_options

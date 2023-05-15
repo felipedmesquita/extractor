@@ -7,7 +7,10 @@ module Extractor
 
     def initialize parameter=nil, auth:{}
       check_on_max_retries
-      @auth = auth
+      @auth = auth.with_indifferent_access
+      if @auth.present? and @auth[:account_id].blank?
+        puts "WARNING: No account_id provided in 'auth:' parameter for #{self.class}"
+      end
       @parameter = parameter
 
       @request_for_method_name =
@@ -89,6 +92,7 @@ module Extractor
     def build_request_model typhoeus_response
       {
         extractor_class: self.class,
+        account_id: @auth[:account_id],
         base_url: typhoeus_response.request.base_url,
         request_options: typhoeus_response.request.options,
         request_original_options: typhoeus_response.request.original_options,
@@ -100,6 +104,7 @@ module Extractor
     def build_request_model_for_error typhoeus_response
       {
         extractor_class: "#{self.class}_errors",
+        account_id: @auth[:account_id],
         base_url: typhoeus_response.request.base_url,
         request_options: typhoeus_response.request.options,
         request_original_options: typhoeus_response.request.original_options,
