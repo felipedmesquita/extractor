@@ -1,0 +1,12 @@
+GEM
+  specs:
+    minitest (5.21.2)
+
+PLATFORMS
+  x86_64-darwin-22
+
+DEPENDENCIES
+  minitest
+
+BUNDLED WITH
+   2.4.20
