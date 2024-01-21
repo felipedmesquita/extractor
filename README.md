@@ -1,5 +1,10 @@
 # Extractor
- A Ruby Gem to extract data from apis with mininal configuration
+ A Ruby Gem to extract data from apis with mininal configuration.
+
+This is currently in a working, but messy state. Watch the [Adding Tests to a Messy Ruby Library](https://www.youtube.com/watch?v=Z2lm5760Y68) episode of the Code with Jason Meetup for a quick introduction, demo, and Jason graciously pairing with me to figure out where we could start adding tests.
+
+If you somehow found this gem and want to try it out, I can pair with you to walk you through setting everything up and runing your first tap. Just send me an email to the address in the gemspec and we'll schedule it.
+
 ## Installation
  Add this to your Gemfile:
  ```ruby
