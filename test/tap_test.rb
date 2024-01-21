@@ -1,10 +1,9 @@
 require "minitest"
 require "minitest/autorun"
 require_relative "../lib/extractor"
-# fix this:
 
-class TestTest < Minitest::Test
-  def test_test
+class TapTest < Minitest::Test
+  def test_initialization
     Extractor::Tap.new
   end
 end
