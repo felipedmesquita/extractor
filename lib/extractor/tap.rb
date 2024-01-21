@@ -29,12 +29,12 @@ module Extractor
       end
     end
 
-    def next_value
-      if @current_value.is_a? Array
-        @parameter -= @current_value
-        @parameter.first @request_for_batch_size
+    def next_value(current_value:, parameter:, request_for_batch_size:)
+      if current_value.is_a? Array
+        parameter -= current_value
+        parameter.first request_for_batch_size
       else
-        @current_value + 1
+        current_value + 1
       end
     end
 
@@ -72,7 +72,7 @@ module Extractor
           end
             nil
           else
-            next_value
+            next_value(current_value: @current_value, parameter: @parameter, request_for_batch_size: @request_for_batch_size)
           end
         elsif begin
           reached_end?(res)
@@ -94,7 +94,7 @@ module Extractor
           when :skip_silently
             puts "skiped on value #{@current_value}"
           end
-          @current_value = next_value
+          @current_value = next_value(current_value: @current_value, parameter: @parameter, request_for_batch_size: @request_for_batch_size)
           retries_count = 0
         end
 
