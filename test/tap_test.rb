@@ -7,8 +7,9 @@ class TapTest < Minitest::Test
     Extractor::Tap.new
   end
 
-  def test_next_value
+  # when parameter is not an array, current_value gets incremented by 1
+  def test_next_value_when_parameter_is_not_an_array
     tap = Extractor::Tap.new
-    assert_equal 2, tap.next_value(current_value: 1, parameter: nil, request_for_batch_size: 1)
+    assert_equal 148, tap.next_value(current_value: 147, parameter: nil, request_for_batch_size: nil)
   end
 end
