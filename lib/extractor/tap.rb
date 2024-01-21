@@ -6,7 +6,7 @@ module Extractor
 
     def initialize parameter = nil, auth: {}
       check_on_max_retries
-      @auth = auth.with_indifferent_access
+      @auth = auth
       if @auth.present? and @auth[:account_id].blank?
         puts "WARNING: No account_id provided in 'auth:' parameter for #{self.class}"
       end
