@@ -1,11 +1,10 @@
 module Extractor
   class Tap
-
     MAX_RETRIES = 4
     SUPPORTED_ON_MAX_RETRIES_VALUES = [:fail, :save_to_errors, :skip_silently]
     ON_MAX_RETRIES = :fail
 
-    def initialize parameter=nil, auth:{}
+    def initialize parameter = nil, auth: {}
       check_on_max_retries
       @auth = auth.with_indifferent_access
       if @auth.present? and @auth[:account_id].blank?
@@ -15,17 +14,18 @@ module Extractor
 
       @request_for_method_name =
         self.class.instance_methods(false)
-        .find {|m| m.to_s.start_with?('request_for_')} || :request_for
+          .find { |m| m.to_s.start_with?("request_for_") } || :request_for
 
       @request_for_batch_size = [
         @request_for_method_name
-        .to_s.gsub('request_for_','').to_i,
-        1].max
+          .to_s.gsub("request_for_", "").to_i,
+        1
+      ].max
 
-      if @parameter.is_a? Array
-        @current_value = @parameter.first @request_for_batch_size
+      @current_value = if @parameter.is_a? Array
+        @parameter.first @request_for_batch_size
       else
-        @current_value = first_value || 1
+        first_value || 1
       end
     end
 
@@ -48,40 +48,54 @@ module Extractor
 
     def perform
       retries_count = 0
-      while @current_value.present? do
-        original_response = send(@request_for_method_name, @request_for_batch_size == 1 ? (@current_value.first rescue @current_value) : @current_value)
+      while @current_value.present?
+        original_response = send(@request_for_method_name, (@request_for_batch_size == 1) ? begin
+          @current_value.first
+        rescue
+          @current_value
+        end : @current_value)
         raise "Function request_for() should return a Typhoeus::Response, but returned #{original_response.class}" if original_response.class != Typhoeus::Response
         res = ResponseWithJson.from_response original_response
-        response_valid = (validate(res) rescue nil)
+        response_valid = begin
+          validate(res)
+        rescue
+          nil
+        end
         if response_valid
           @last_response = res
           Request.insert! build_request_model(res)
           retries_count = 0
-          if (reached_end?(res) rescue false)
-            @current_value = nil
-          else
-            @current_value = next_value
+          @current_value = if begin
+            reached_end?(res)
+          rescue
+            false
           end
+            nil
+          else
+            next_value
+          end
+        elsif begin
+          reached_end?(res)
+        rescue
+          false
+        end
+          @current_value = nil
+        elsif retries_count < self.class::MAX_RETRIES
+          retries_count += 1
+          puts "sleep #{2**retries_count} then will retry #{"again" if retries_count > 1}"
+          sleep(2**retries_count)
+          redo
         else
-          if (reached_end?(res) rescue false)
-            @current_value = nil
-          elsif retries_count < self.class::MAX_RETRIES
-            retries_count += 1
-            puts "sleep #{(2**retries_count)} then will retry #{'again' if retries_count > 1}"
-            sleep (2**retries_count)
-            redo
-          else
-            case self.class::ON_MAX_RETRIES
-            when :fail
-              raise "Maximum number of retries reached (#{self.class::MAX_RETRIES})"
-            when :save_to_errors
-              Request.insert! build_request_model_for_error(res)
-            when :skip_silently
-              puts "skiped on value #{@current_value}"
-            end
-            @current_value = next_value
-            retries_count = 0
+          case self.class::ON_MAX_RETRIES
+          when :fail
+            raise "Maximum number of retries reached (#{self.class::MAX_RETRIES})"
+          when :save_to_errors
+            Request.insert! build_request_model_for_error(res)
+          when :skip_silently
+            puts "skiped on value #{@current_value}"
           end
+          @current_value = next_value
+          retries_count = 0
         end
 
       end
@@ -89,6 +103,7 @@ module Extractor
     end
 
     private
+
     def build_request_model typhoeus_response
       {
         extractor_class: self.class,

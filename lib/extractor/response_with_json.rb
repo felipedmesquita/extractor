@@ -8,12 +8,18 @@ module Extractor
     end
 
     def json
-      JSON.parse(body) rescue nil
+      JSON.parse(body)
+    rescue
+      nil
     end
 
     def parsed_options
       a = options.dup
-      a[:response_body] = JSON.parse(a[:response_body]) rescue a[:response_body]
+      a[:response_body] = begin
+        JSON.parse(a[:response_body])
+      rescue
+        a[:response_body]
+      end
       a
     end
   end
