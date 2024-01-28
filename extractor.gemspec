@@ -14,5 +14,6 @@ Gem::Specification.new do |s|
   s.add_dependency "railties", ">= 6"
   s.add_dependency "activerecord", ">= 6"
   s.add_dependency "zeitwerk"
+  s.add_dependency "typhoeus"
   s.add_development_dependency "minitest", ">= 5.0"
 end
