@@ -4,6 +4,7 @@ module Extractor
     MAX_RETRIES = 4
     SUPPORTED_ON_MAX_RETRIES_VALUES = [:fail, :save_to_errors, :skip_silently]
     ON_MAX_RETRIES = :fail
+    MAX_CONCURRENCY = 200
 
     def initialize parameter=nil, auth:{}
       check_on_max_retries
@@ -86,6 +87,25 @@ module Extractor
 
       end
       puts "Completed run of #{self.class}"
+    end
+
+    def parallel_perform
+      @hydra = Typhoeus::Hydra.new(max_concurrency: self.class::MAX_CONCURRENCY)
+      @parameter.each_slice(@request_for_batch_size) do |batch|
+        request = send(@request_for_method_name, (@request_for_batch_size == 1 ? (batch.first rescue batch) : batch))
+        raise "Function request_for() should return a Typhoeus::Request, but returned #{request.class}" if request.class != Typhoeus::Request
+        request.on_complete do |response|
+          res = ResponseWithJson.from_response response
+          response_valid = (validate(res) rescue nil)
+          if response_valid
+            Request.insert! build_request_model(res)
+          else
+            Request.insert! build_request_model_for_error(res)
+          end
+        end
+        @hydra.queue request
+      end
+      @hydra.run
     end
 
     private
