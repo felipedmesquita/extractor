@@ -1,6 +1,6 @@
 Gem::Specification.new do |s|
   s.name        = "extractor"
-  s.version     = "0.0.1"
+  s.version     = "0.0.2"
   s.summary     = "Extract data from APIs with mininal configuration"
   s.authors     = ["Felipe Mesquita"]
   s.email       = "felipemesquita@hey.com"
@@ -14,4 +14,5 @@ Gem::Specification.new do |s|
   s.add_dependency "railties", ">= 6"
   s.add_dependency "activerecord", ">= 6"
   s.add_dependency "zeitwerk"
+  s.add_dependency "typhoeus"
 end
