@@ -1,0 +1,9 @@
+<%%= build_as :incremental %>
+SELECT
+  DISTINCT ON(unique_by)
+  *
+FROM <%%= ref('<%= "#{file_name}_cleaned" %>') %>
+<%% if is_incremental %>
+  WHERE created_at > (SELECT coalesce(max(created_at), '-infinity'::DATE) FROM <%%= this %>)
+<%% end %>
+ORDER BY unique_by, created_at DESC

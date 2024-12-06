@@ -1,0 +1,8 @@
+SELECT
+  body ->> 'id' as id,
+  body ->> 'code' as code,
+  body ->> 'name' name,
+  created_at,
+  account_id,
+  request_id
+FROM <%%= ref('<%= "#{file_name}_cleaned_deduplicated" %>') %>
