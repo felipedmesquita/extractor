@@ -1,0 +1,8 @@
+SELECT
+  jsonb_path_query(response_options, '$.response_body.data[*]') as body,
+  jsonb_path_query(response_options, '$.response_body.data[*].id') as unique_by,
+  request_id,
+  created_at,
+  account_id
+FROM <%%= source 'requests' %>
+WHERE extractor_class = '<%= "#{class_name}Tap" %>'
