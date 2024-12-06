@@ -1,7 +1,6 @@
 SELECT
-  body ->> 'id' as id,
-  body ->> 'code' as code,
-  body ->> 'name' name,
+  unique_by,
+  body,
   created_at,
   account_id,
   request_id
