@@ -110,20 +110,23 @@ module Extractor
 
     private
     def build_request_model typhoeus_response
-      {
+      request_model = {
         extractor_class: self.class,
         account_id: @auth[:account_id],
         base_url: typhoeus_response.request.base_url,
         request_options: typhoeus_response.request.options,
         request_original_options: typhoeus_response.request.original_options,
         response_options: typhoeus_response.parsed_options,
-        request_cache_key: typhoeus_response.request.cache_key,
-        aux: {value: @current_value, retries: @retries_count}
+        request_cache_key: typhoeus_response.request.cache_key
       }
+      if Request.column_names.include?('aux')
+        request_model[:aux] = { value: @current_value, retries: @retries_count }
+      end
+      request_model
     end
 
     def build_request_model_for_error typhoeus_response
-      {
+      request_model = {
         extractor_class: "#{self.class}_errors",
         account_id: @auth[:account_id],
         base_url: typhoeus_response.request.base_url,
@@ -131,8 +134,11 @@ module Extractor
         request_original_options: typhoeus_response.request.original_options,
         response_options: typhoeus_response.parsed_options,
         request_cache_key: typhoeus_response.request.cache_key,
-        aux: {value: @current_value, retries: @retries_count}
       }
+      if Request.column_names.include?('aux')
+        request_model[:aux] = { value: @current_value, retries: @retries_count }
+      end
+      request_model
     end
 
     def check_on_max_retries
