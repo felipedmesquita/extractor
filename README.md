@@ -12,7 +12,7 @@ gem "extractor", github: "felipedmesquita/extractor"
  ```
 Create the requests model:
 ```bash
-rails generate extractor:requests
+rails generate extractor:install
 rails db:migrate
 ```
 To get newer changes from the main branch run `bundle update extractor`
