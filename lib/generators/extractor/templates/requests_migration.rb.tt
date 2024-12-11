@@ -8,6 +8,7 @@ class <%= migration_class_name %> < ActiveRecord::Migration<%= migration_version
       t.jsonb :request_original_options
       t.jsonb :response_options
       t.string :request_cache_key
+      t.jsonb :aux
 
       t.timestamps
     end
