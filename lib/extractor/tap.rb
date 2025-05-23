@@ -28,6 +28,7 @@ module Extractor
       else
         @current_value = first_value || 1
       end
+      @start_time = Time.now.to_i
     end
 
     def next_value
@@ -120,7 +121,7 @@ module Extractor
         request_cache_key: typhoeus_response.request.cache_key
       }
       if Request.column_names.include?('aux')
-        request_model[:aux] = { value: @current_value, retries: @retries_count }
+        request_model[:aux] = { value: @current_value, retries: @retries_count, run_id: "#{object_id}-#{@start_time}"}
       end
       request_model
     end
@@ -136,7 +137,7 @@ module Extractor
         request_cache_key: typhoeus_response.request.cache_key,
       }
       if Request.column_names.include?('aux')
-        request_model[:aux] = { value: @current_value, retries: @retries_count }
+        request_model[:aux] = { value: @current_value, retries: @retries_count, run_id: "#{object_id}-#{@start_time}"}
       end
       request_model
     end
