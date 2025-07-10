@@ -1,6 +1,6 @@
 Gem::Specification.new do |s|
   s.name        = "safra"
-  s.version     = "0.0.3"
+  s.version     = "0.0.1"
   s.summary     = "Extract data from APIs with mininal configuration"
   s.authors     = ["Felipe Mesquita"]
   s.email       = "felipemesquita@hey.com"
