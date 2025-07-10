@@ -1,4 +1,4 @@
-class <%= class_name %>Tap < Extractor::Tap
+class <%= class_name %>Tap < Safra::Tap
 
   # Value counts up from 1 by default
   # Customize defining first_value and next_value methods

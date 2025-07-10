@@ -1,4 +1,4 @@
-# Extractor
+# Safra
  A Ruby Gem to extract data from apis with mininal configuration.
 
 This is currently in a working, but messy state. Watch the [Adding Tests to a Messy Ruby Library](https://www.youtube.com/watch?v=Z2lm5760Y68) episode of the Code with Jason Meetup for a quick introduction, demo, and Jason graciously pairing with me to figure out where we could start adding tests.
@@ -8,23 +8,23 @@ If you somehow found this gem and want to try it out, I can pair with you to wal
 ## Installation
  Add this to your Gemfile:
  ```ruby
-gem "extractor", github: "felipedmesquita/extractor"
+gem "safra"
  ```
 Create the requests model:
 ```bash
-rails generate extractor:install
+rails generate safra:install
 rails db:migrate
 ```
-To get newer changes from the main branch run `bundle update extractor`
+To get newer changes from the main branch run `bundle update safra`
 
 ## Usage
 Create a tap:
 ```bash
-rails generate extractor:tap example
+rails generate safra:tap example
 # => create  app/extractors/example_tap.rb
 # => create  app/sql/example.sql
 ```
-Taps inherit the initilizer and perform methods from Extractor::Tap. To run our example tap, we can simply call:
+Taps inherit the initilizer and perform methods from Safra::Tap. To run our example tap, we can simply call:
 ```ruby
 ExampleTap.new.perform
 ```
@@ -89,6 +89,6 @@ ON_MAX_RETRIES = :fail
 - `:skip_silently` Don't use this one.
 
 ## Instance variables
-- `@parameter` The postional first argument to `.new`. In `ExampleTap.new(Date.yesterday)` @parameter would be `Date.yesterday`. This is not used by the Extractor::Tap class.
-- `@auth` The named argument `auth:` to `.new`. In `ExampleTap.new(auth: {api_key: '328490284209'})` @auth would be `'328490284209'`. This is not used by the Extractor::Tap class.
+- `@parameter` The postional first argument to `.new`. In `ExampleTap.new(Date.yesterday)` @parameter would be `Date.yesterday`. This is not used by the Safra::Tap class.
+- `@auth` The named argument `auth:` to `.new`. In `ExampleTap.new(auth: {api_key: '328490284209'})` @auth would be `'328490284209'`. This is not used by the Safra::Tap class.
 - `@last_response` Is set automaticaly to the last valid response received from `request_for`.

@@ -1,6 +1,6 @@
 require "rails/generators/active_record"
 
-module Extractor
+module Safra
   module Generators
     class InstallGenerator < Rails::Generators::Base
       include ActiveRecord::Generators::Migration

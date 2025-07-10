@@ -1,4 +1,4 @@
-module Extractor
+module Safra
   class Tap
 
     MAX_RETRIES = 4
