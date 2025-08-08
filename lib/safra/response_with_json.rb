@@ -1,4 +1,4 @@
-module Extractor
+module Safra
   class ResponseWithJson < Typhoeus::Response
     def self.from_response response
       res = new(response.options)

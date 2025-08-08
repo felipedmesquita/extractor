@@ -1,10 +1,10 @@
 Gem::Specification.new do |s|
-  s.name        = "extractor"
-  s.version     = "0.0.3"
+  s.name        = "safra"
+  s.version     = "2.0.0"
   s.summary     = "Extract data from APIs with mininal configuration"
   s.authors     = ["Felipe Mesquita"]
   s.email       = "felipemesquita@hey.com"
-  s.homepage    = 'https://github.com/felipedmesquita/extractor'
+  s.homepage    = 'https://github.com/felipedmesquita/safra'
   s.license     = 'MIT'
 
   s.files         = Dir["lib/**/*"]
