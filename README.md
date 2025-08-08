@@ -1,5 +1,14 @@
+[![Gem Version](https://badge.fury.io/rb/safra.svg)](https://badge.fury.io/rb/safra)
 # Safra
- A Ruby Gem to extract data from apis with mininal configuration.
+
+> [!NOTE] 
+> This gem is being renamed to **Safra** so it can be published in rubygems.
+
+## Name change
+1. Replace `gem "extractor", github: "felipedmesquita/extractor"` with `gem "safra"`
+2. Done
+
+A Ruby Gem to extract data from apis with mininal configuration.
 
 This is currently in a working, but messy state. Watch the [Adding Tests to a Messy Ruby Library](https://www.youtube.com/watch?v=Z2lm5760Y68) episode of the Code with Jason Meetup for a quick introduction, demo, and Jason graciously pairing with me to figure out where we could start adding tests.
 
