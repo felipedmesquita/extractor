@@ -1,12 +1,6 @@
 [![Gem Version](https://badge.fury.io/rb/safra.svg)](https://badge.fury.io/rb/safra)
 # Safra
 
-> [!NOTE] 
-> This gem is being renamed to **Safra** so it can be published in rubygems.
-
-## Name change
-1. Replace `gem "extractor", github: "felipedmesquita/extractor"` with `gem "safra"`
-2. Done
 
 A Ruby Gem to extract data from apis with mininal configuration.
 
